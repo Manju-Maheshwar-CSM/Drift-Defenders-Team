@@ -1,0 +1,60 @@
+⚠️ VERY IMPORTANT BEFORE RUNNING
+
+You must run as Administrator
+
+Install:pip install scapy pandas
+
+🧠 Assumption
+
+Let’s say:
+
+Device 1 IP → 192.168.1.101
+Device 2 IP → 192.168.1.102
+
+
+
+📡 Arduino Sending Data Every 10 Seconds
+
+Your Arduino (with WiFi module like ESP8266/ESP32) should:
+
+1️⃣ Connect to WiFi
+2️⃣ Send HTTP POST request every 10 seconds
+
+Example logic (pseudo):
+delay(10000);  // 10 seconds
+sendDataToServer();
+
+
+.
+
+🧠 What Happens During Demo
+
+Arduino → Router → Network
+↓
+Scapy Sniffer captures packets
+↓
+Metadata saved to CSV
+↓
+After 2–5 mins → Train ML
+↓
+Live trust scoring
+
+
+🏆 Professional Tip
+
+Instead of sniffing ALL network traffic, you can filter using BPF filter:
+
+Replace sniff line with:
+sniff(filter="host 192.168.1.101 or host 192.168.1.102",
+      prn=process_packet,
+      store=False)
+
+⚠️ Important Beginner Clarification
+
+This code captures:
+
+👉 Metadata only
+NOT actual sensor values
+NOT encrypted content
+
+That’s correct for your trust model.

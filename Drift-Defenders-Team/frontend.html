@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>IoT Security Dashboard</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    background:#0f172a;
+    color:white;
+    text-align:center;
+}
+
+.container{
+    width:600px;
+    margin:auto;
+}
+
+.card{
+    background:#1e293b;
+    padding:20px;
+    margin:20px;
+    border-radius:10px;
+}
+
+.safe{
+    color:lime;
+    font-size:22px;
+}
+
+.risky{
+    color:red;
+    font-size:22px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🔐 IoT Network Security Dashboard</h1>
+
+<div class="container">
+
+<div class="card">
+<h2>Trust Score</h2>
+<h1 id="score">--</h1>
+</div>
+
+<div class="card">
+<h2>Status</h2>
+<h1 id="status">Waiting...</h1>
+</div>
+
+<div class="card">
+<h2>Packet Size</h2>
+<p id="packet">--</p>
+</div>
+
+<div class="card">
+<h2>Latency</h2>
+<p id="latency">--</p>
+</div>
+
+</div>
+
+<script>
+
+async function getData(){
+
+    const response = await fetch("http://localhost:5000/api/status",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body: JSON.stringify({
+            packet_size_bytes: 450,
+            latency_ms: 20,
+            connection_count: 45,
+            data_rate_mbps: 2.3
+        })
+
+    });
+
+    const data = await response.json();
+
+    document.getElementById("score").innerText = data.trust_score;
+    document.getElementById("status").innerText = data.status;
+
+    document.getElementById("packet").innerText =
+        data.evidence_log.packet_size;
+
+    document.getElementById("latency").innerText =
+        data.evidence_log.latency;
+
+}
+
+setInterval(getData,3000);
+
+</script>
+
+</body>
+</html>

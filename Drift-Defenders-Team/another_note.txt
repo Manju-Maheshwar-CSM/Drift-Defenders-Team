@@ -1,0 +1,5 @@
+1) Dhanush csv file 
+2) Train ML using his file 
+3) Run API using the created joblib file 
+
+4) now we need to connect the api to a website
